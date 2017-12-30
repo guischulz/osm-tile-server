@@ -1,0 +1,36 @@
+<html>
+<head>
+   <title>OpenStreetMap</title>
+
+   <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+
+   <style>
+   html, body, #map {
+      height:100%;
+      width:100%;
+      padding:0px;
+      margin:0px;
+   }
+   </style>
+
+   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css" />
+   <script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"></script>
+
+   <script language="javascript">
+      function init() {
+         var map = new L.Map('map');
+         L.tileLayer('http://localhost/osm_tiles/{z}/{x}/{y}.png', {
+            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors.',
+            maxZoom: 20
+         }).addTo(map);
+         map.attributionControl.setPrefix(''); // Don't show the 'Powered by Leaflet' text.
+         var center = new L.LatLng(0.0, 0.0);
+         map.setView(center, 2);
+      }
+   </script>
+
+</head>
+<body onLoad="javascript:init();">
+   <div id="map"></div>
+</body>                                                                                                                 
+</html>
