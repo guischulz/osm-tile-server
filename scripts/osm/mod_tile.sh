@@ -9,7 +9,7 @@
 # Ubuntu 16.04, and with a couple of other changes to work on a standard
 # Ubuntu server rather than one of OSM's rendering servers.
 #
-# Adjust NUM_THREADS depending on the number of avaliable CPUs.
+# Adjust NUM_THREADS depending on the number of available CPUs.
 
 if [ -z ${OSM_ACCOUNT+x} ]; then
   OSM_ACCOUNT=osm
@@ -51,11 +51,10 @@ if [ ! -f /var/lib/mod_tile/planet-import-complete ]; then
 fi
 
 # adjust renderd configuration
-sed -e "s/^num_threads=[0-9]*/num_threads=${NUM_THREADS}/" \
-    -e 's/^\[ajt\]$/\[default\]/' \
-    -e 's/^URI=.*/URI=\/osm_tiles\//' \
-    -e "s/^XML=\/home\/renderaccount\//XML=\/home\/${OSM_ACCOUNT}\//" \
-    /usr/local/etc/renderd.conf | sudo tee /usr/local/etc/renderd.conf
+sudo sed -i -e "s/^num_threads=[0-9]*/num_threads=${NUM_THREADS}/" \
+            -e 's/^\[ajt\]$/\[default\]/' \
+            -e 's/^URI=.*/URI=\/osm_tiles\//' \
+            -e "s/^XML=\/home\/renderaccount\//XML=\/home\/${OSM_ACCOUNT}\//" /usr/local/etc/renderd.conf
 
 # create systemd service
 sed -e "s/^RUNASUSER=.*/RUNASUSER=${OSM_ACCOUNT}/" \
