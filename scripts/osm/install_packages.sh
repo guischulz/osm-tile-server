@@ -28,3 +28,6 @@ sudo apt-get -yq install fonts-noto-cjk fonts-noto-hinted fonts-noto-unhinted fo
 
 # apache
 sudo apt-get -yq install apache2
+
+# poly-bounds.py
+sudo apt-get -yq install python-shapely

@@ -15,7 +15,8 @@ set -x
 # system user for rendering and database access
 declare -x OSM_ACCOUNT=osm
 # osm pbf data file to import
-declare -x OSM_PLANET_FILE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez-latest.osm.pbf
+declare -x OSM_DATA_FILE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez-latest.osm.pbf
+declare -x OSM_EXTENT_FILE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez.poly
 # osm updates
 declare -x OSM_UPDATE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez-updates
 declare -x OSM_STATE_FILE=state.txt
@@ -35,7 +36,7 @@ declare -x OSM_STATE_FILE=state.txt
 # get mapnik style configuration
 sudo -H -u ${OSM_ACCOUNT} ./osm/mapnik_style.sh
 # initial full import
-sudo -H -u ${OSM_ACCOUNT} ./osm/import_data.sh ${OSM_PLANET_FILE_URL}
+sudo -H -u ${OSM_ACCOUNT} ./osm/import_data.sh ${OSM_DATA_FILE_URL}
 
 # configure database settings for normal use
 ./osm/postgresql_normal.sh
@@ -46,3 +47,5 @@ sudo -H -u ${OSM_ACCOUNT} ./osm/import_data.sh ${OSM_PLANET_FILE_URL}
 
 # setup osm daily diff updates
 ./osm/cron_osmupdate.sh ${OSM_UPDATE_URL} ${OSM_STATE_FILE}
+# create and run pre-render script
+sudo -H -u ${OSM_ACCOUNT} ./osm/pre-render.sh ${OSM_EXTENT_FILE_URL}

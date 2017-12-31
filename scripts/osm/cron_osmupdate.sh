@@ -28,8 +28,10 @@ if [ ! -d /home/${OSM_ACCOUNT}/bin ]; then
   sudo -u ${OSM_ACCOUNT} mkdir /home/${OSM_ACCOUNT}/bin
   sudo cp ${HOME}/src/mod_tile/openstreetmap-tiles-update-expire /home/${OSM_ACCOUNT}/bin
   sudo cp ${HOME}/src/mod_tile/osmosis-db_replag /home/${OSM_ACCOUNT}/bin
+  sudo cp ../src/poly-bounds.py /home/${OSM_ACCOUNT}/bin
   sudo chmod ug+x /home/${OSM_ACCOUNT}/bin/openstreetmap-tiles-update-expire
   sudo chmod ug+x /home/${OSM_ACCOUNT}/bin/osmosis-db_replag
+  sudo chmod ug+x /home/${OSM_ACCOUNT}/bin/poly-bounds.py
   sudo chown -R ${OSM_ACCOUNT}:${OSM_ACCOUNT} /home/${OSM_ACCOUNT}/bin
 fi
 
