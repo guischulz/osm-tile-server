@@ -13,8 +13,8 @@ sudo apt-get -yq install git
 # postgresql / postgis
 sudo apt-get -yq install postgresql postgresql-contrib postgis postgresql-9.5-postgis-2.2
 
-# osm2pgsql
-sudo apt-get -yq install osm2pgsql
+# osm2pgsql / osmosis
+sudo apt-get -yq install osm2pgsql osmosis
 
 # mod-tile / renderd
 sudo apt-get -yq install autoconf libtool libmapnik-dev apache2-dev

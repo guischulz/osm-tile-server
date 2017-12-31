@@ -16,6 +16,9 @@ set -x
 declare -x OSM_ACCOUNT=osm
 # osm pbf data file to import
 declare -x OSM_PLANET_FILE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez-latest.osm.pbf
+# osm updates
+declare -x OSM_UPDATE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/detmold-regbez-updates
+declare -x OSM_STATE_FILE=state.txt
 
 # create user
 ./osm/create_user.sh
@@ -40,3 +43,6 @@ sudo -H -u ${OSM_ACCOUNT} ./osm/import_data.sh ${OSM_PLANET_FILE_URL}
 # compile and install mod_tile/renderd
 ./osm/mod_tile.sh
 ./osm/apache.sh
+
+# setup osm daily diff updates
+./osm/cron_osmupdate.sh ${OSM_UPDATE_URL} ${OSM_STATE_FILE}
