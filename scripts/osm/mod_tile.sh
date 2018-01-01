@@ -45,9 +45,14 @@ if [ ! -d /var/run/renderd ]; then
 fi
 sudo chown ${OSM_ACCOUNT} /var/run/renderd
 
-# mod_tile requires the date of the last full import
+# mod_tile requires the date of the last full import; should have been created by import_data.sh
 if [ ! -f /var/lib/mod_tile/planet-import-complete ]; then
-  sudo -u ${OSM_ACCOUNT} touch /var/lib/mod_tile/planet-import-complete
+  if [ -f /home/${OSM_ACCOUNT}/data/planet-import-complete ]; then
+    TIMESTAMP=`stat -c %Y /home/${OSM_ACCOUNT}/data/planet-import-complete`
+    sudo -u ${OSM_ACCOUNT} touch -d @${TIMESTAMP} /var/lib/mod_tile/planet-import-complete
+  else
+    sudo -u ${OSM_ACCOUNT} touch /var/lib/mod_tile/planet-import-complete
+  fi
 fi
 
 # adjust renderd configuration

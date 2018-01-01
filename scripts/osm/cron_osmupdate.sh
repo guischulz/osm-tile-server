@@ -10,11 +10,6 @@ if [ ! -z ${1:-} ]; then
 elif [ -z ${OSM_UPDATE_URL+x} ]; then
   OSM_UPDATE_URL=http://download.geofabrik.de/europe/germany/nordrhein-westfalen/arnsberg-regbez-updates
 fi
-if [ ! -z ${2:-} ]; then
-  OSM_STATE_FILE=$2
-elif [ -z ${OSM_STATE_FILE+x} ]; then
-  OSM_STATE_FILE=state.txt
-fi
 
 # make log directory
 if [ ! -d /var/log/tiles ]; then
@@ -52,8 +47,12 @@ sudo -u ${OSM_ACCOUNT} sed -i -e "s#^baseUrl=.*#baseUrl=${OSM_UPDATE_URL}#" \
                    -e 's/^maxInterval =.*/maxInterval = 0/' \
                    /var/lib/mod_tile/.osmosis/configuration.txt
 
-# replace state with correct version from initial import
-wget -O - ${OSM_UPDATE_URL}/${OSM_STATE_FILE} | sudo -u ${OSM_ACCOUNT} tee /var/lib/mod_tile/.osmosis/state.txt
+# replace state with correct version from initial import; should have been created by import_data.sh
+if [ -f /home/${OSM_ACCOUNT}/data/initial_state.txt ]; then
+  cat /home/${OSM_ACCOUNT}/data/initial_state.txt | sudo -u ${OSM_ACCOUNT} tee /var/lib/mod_tile/.osmosis/state.txt
+else
+  wget -O - ${OSM_UPDATE_URL}/state.txt | sudo -u ${OSM_ACCOUNT} tee /var/lib/mod_tile/.osmosis/state.txt
+fi
 
 # create cron job for daily update (will run everyday at 3:30)
 echo -e "30 3 * * * ${OSM_ACCOUNT} /home/${OSM_ACCOUNT}/bin/openstreetmap-tiles-update-expire >/dev/null 2>&1" | sudo tee /etc/cron.d/osmupdate
