@@ -1,7 +1,7 @@
 #!/bin/bash -eu
 
 # Install and configure OSM tile server components:
-# PostgreSQL, Mapnik, Apache, mod_tile, carto, openstreetmap-carto, osm2pgsql
+# PostgreSQL, Mapnik, Apache, mod_tile, carto, openstreetmap-carto, osm2pgsql, osmosis
 #
 # Run this script as a user with full sudo privileges without password.
 if ! sudo -n true 2>/dev/null; then
